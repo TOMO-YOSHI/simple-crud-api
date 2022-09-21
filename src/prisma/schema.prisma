@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Category {
+  hobby
+  work
+  study
+  other
+}
+
+
+enum TodoStatus {
+  done
+  pending
+}
+
+
+model Todo {
+  id          Int        @id @default(autoincrement())
+  title       String     @db.VarChar(255)
+  description String?
+  category    Category   @default(other)
+  status      TodoStatus @default(pending)
+  priority    Int        @default(2)
+  userId      String
+}
+
+model User {
+  id        String  @id @unique
+  name      String  @unique
+  password  String
+}
