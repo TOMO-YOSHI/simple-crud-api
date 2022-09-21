@@ -4,7 +4,7 @@ generates:
     schema: ./src/schema.graphql
     config:
       useIndexSignature: true
-      contextType: ../context#Context
+      contextType: ./src/types/context
       enumsAsTypes: true
     plugins:
       - typescript

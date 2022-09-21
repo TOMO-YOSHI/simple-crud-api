@@ -7,19 +7,12 @@ import { ApolloServer, gql } from "apollo-server-express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import { resolvers } from "./resolvers";
-// import * as bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
 import { expressjwt } from 'express-jwt';
+import { prisma } from './prisma/client';
 const bcrypt = require('bcrypt');
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
-// const privateKey = fs.readFileSync(`${__dirname}/private.key`);
 const jwtSecret = process.env.JWT_SECRET || "17NfUBizz9tBwt1cCWzNqthWQanwpETJ";
-// const jwtSecret = "17NfUBizz9tBwt1cCWzNqthWQanwpETJ";
 
-console.log(process.env)
-
-// const PORT = 4000;
 
 const startServer = async () => {
 
@@ -87,9 +80,6 @@ const startServer = async () => {
         { sub: user.id },
         jwtSecret        
       );
-
-      // var decoded = jwt.verify(token, privateKey);
-      // console.log(decoded.sub)
 
       res.status(200).json({ token });
     } catch(error) {

@@ -1,5 +1,4 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { Context } from '../context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -22,21 +21,15 @@ export type Category =
   | 'work';
 
 export type CreateTodoInput = {
-  category: Scalars['String'];
+  category?: InputMaybe<Category>;
   description?: InputMaybe<Scalars['String']>;
-  priority: Scalars['Int'];
+  priority?: InputMaybe<Scalars['Int']>;
   title: Scalars['String'];
-};
-
-export type CreateUserInput = {
-  name: Scalars['String'];
-  password: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   createTodo?: Maybe<Todo>;
-  createUser?: Maybe<User>;
   deleteTodo?: Maybe<Todo>;
   updateTodo?: Maybe<Todo>;
   updateUser?: Maybe<User>;
@@ -44,24 +37,18 @@ export type Mutation = {
 
 
 export type MutationCreateTodoArgs = {
-  input?: InputMaybe<CreateTodoInput>;
-};
-
-
-export type MutationCreateUserArgs = {
-  id?: InputMaybe<Scalars['String']>;
-  input?: InputMaybe<CreateUserInput>;
+  input: CreateTodoInput;
 };
 
 
 export type MutationDeleteTodoArgs = {
-  id?: InputMaybe<Scalars['Int']>;
+  id: Scalars['Int'];
 };
 
 
 export type MutationUpdateTodoArgs = {
-  id?: InputMaybe<Scalars['Int']>;
-  input?: InputMaybe<UpdateTodoInput>;
+  id: Scalars['Int'];
+  input: UpdateTodoInput;
 };
 
 
@@ -72,7 +59,6 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  hello?: Maybe<Scalars['String']>;
   todo?: Maybe<Todo>;
   todos?: Maybe<Array<Todo>>;
 };
@@ -80,6 +66,13 @@ export type Query = {
 
 export type QueryTodoArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryTodosArgs = {
+  category?: InputMaybe<Category>;
+  priority?: InputMaybe<Scalars['Int']>;
+  status?: InputMaybe<TodoStatus>;
 };
 
 export type Todo = {
@@ -98,10 +91,10 @@ export type TodoStatus =
   | 'pending';
 
 export type UpdateTodoInput = {
-  category?: InputMaybe<Scalars['Int']>;
+  category?: InputMaybe<Category>;
   description?: InputMaybe<Scalars['String']>;
   priority?: InputMaybe<Scalars['Int']>;
-  status?: InputMaybe<Scalars['String']>;
+  status?: InputMaybe<TodoStatus>;
   title?: InputMaybe<Scalars['String']>;
 };
 
@@ -190,7 +183,6 @@ export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Category: Category;
   CreateTodoInput: CreateTodoInput;
-  CreateUserInput: CreateUserInput;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -207,7 +199,6 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean'];
   CreateTodoInput: CreateTodoInput;
-  CreateUserInput: CreateUserInput;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
   Mutation: {};
@@ -219,21 +210,19 @@ export type ResolversParentTypes = ResolversObject<{
   User: User;
 }>;
 
-export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  createTodo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, Partial<MutationCreateTodoArgs>>;
-  createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationCreateUserArgs>>;
-  deleteTodo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, Partial<MutationDeleteTodoArgs>>;
-  updateTodo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, Partial<MutationUpdateTodoArgs>>;
+export type MutationResolvers<ContextType = ./src/types/context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  createTodo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<MutationCreateTodoArgs, 'input'>>;
+  deleteTodo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<MutationDeleteTodoArgs, 'id'>>;
+  updateTodo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<MutationUpdateTodoArgs, 'id' | 'input'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationUpdateUserArgs>>;
 }>;
 
-export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+export type QueryResolvers<ContextType = ./src/types/context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   todo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<QueryTodoArgs, 'id'>>;
-  todos?: Resolver<Maybe<Array<ResolversTypes['Todo']>>, ParentType, ContextType>;
+  todos?: Resolver<Maybe<Array<ResolversTypes['Todo']>>, ParentType, ContextType, Partial<QueryTodosArgs>>;
 }>;
 
-export type TodoResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Todo'] = ResolversParentTypes['Todo']> = ResolversObject<{
+export type TodoResolvers<ContextType = ./src/types/context, ParentType extends ResolversParentTypes['Todo'] = ResolversParentTypes['Todo']> = ResolversObject<{
   category?: Resolver<ResolversTypes['Category'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -244,14 +233,14 @@ export type TodoResolvers<ContextType = Context, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+export type UserResolvers<ContextType = ./src/types/context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   password?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type Resolvers<ContextType = Context> = ResolversObject<{
+export type Resolvers<ContextType = ./src/types/context> = ResolversObject<{
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Todo?: TodoResolvers<ContextType>;

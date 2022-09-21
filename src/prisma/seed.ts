@@ -1,12 +1,10 @@
 require('dotenv').config()
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
-// import { prisma, User } from './client';
-const { PrismaClient, User } = require('@prisma/client');
-const prisma = new PrismaClient();
+import { prisma, user as User } from './client';
+import { saltRounds } from '../config';
 
 const main = async () => {
-  // await createCategories();
   const users = await createUsers();
   const promises = users.map((user) => {
     return createTodos(user);
@@ -20,10 +18,8 @@ const main = async () => {
 
 const createUsers = async () => {
   const promises = [...Array(3)].map((_, i) => {
-    // const userId = `${i + 1}`;
     const userId = uuidv4();
 
-    const saltRounds = process.env.SOLTROUNDS;
     const hash = bcrypt.hashSync(`password${i + 1}`, saltRounds);
 
     return prisma.user.upsert({
@@ -39,6 +35,10 @@ const createUsers = async () => {
   return await Promise.all(promises);
 };
 
+const randomIntFromInterval = (min: number, max: number) => {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
 const createTodos = async (user: typeof User) => {
   const categoriesArr = ["hobby", "work", "study", "other"];
 
@@ -48,27 +48,15 @@ const createTodos = async (user: typeof User) => {
       data: {
         title: `${user.name}_todo_${number}_title`,
         description: `${user.name}_todo_${number}_description`,
-        category: categoriesArr[i],
+        category: categoriesArr[randomIntFromInterval(0, 3)],
         status: 'pending',
-        priority: number,
+        priority: randomIntFromInterval(1, 3),
         userId: user.id,
       },
     });
   });
   return await Promise.all(promises);
 };
-
-// const createCategories = async() => {
-//   const categoriesArr = ["other", "work", "study", "hobby"];
-//   const promises = [...Array(4)].map((_, i) => {
-//     return prisma.category.create({
-//       data: {
-//         type: categoriesArr[i]
-//       },
-//     });
-//   });
-//   return await Promise.all(promises);
-// }
 
 main()
   .catch((e) => {

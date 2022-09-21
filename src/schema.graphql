@@ -1,12 +1,11 @@
 type Query {
   todo(id: ID!): Todo
   todos(priority: Int, status: TodoStatus, category: Category): [Todo!]
-  hello: String
 }
 
 type Mutation {
   createTodo(input: CreateTodoInput!): Todo
-  updateTodo(id: Int, input: UpdateTodoInput): Todo
+  updateTodo(id: Int!, input: UpdateTodoInput!): Todo
   deleteTodo(id: Int!): Todo
   # createUser(id: String, input: CreateUserInput): User
   updateUser(id: String, input: UpdateUserInput): User

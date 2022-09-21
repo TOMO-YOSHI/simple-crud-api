@@ -1,6 +1,6 @@
 export type Context = {
-  user?: {
-    name: string;
-    token: string;
+  auth?: {
+    sub: string;
+    iat: number;
   };
 };
