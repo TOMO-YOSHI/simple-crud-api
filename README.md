@@ -12,7 +12,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="./assets/images/profile.png" alt="Logo" width="80" height="80">
+    <img src="./assets/images/profile-min.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Simple CRUD API by GraphQL</h3>
