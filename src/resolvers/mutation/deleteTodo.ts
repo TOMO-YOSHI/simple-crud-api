@@ -8,7 +8,6 @@ export const deleteTodo: MutationResolvers['deleteTodo'] = async (_root, { id },
 
   const todo = await prisma.todo.findUnique({
     where: {
-      // id: parseInt(id)
       id: id
     }
   });
