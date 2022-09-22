@@ -625,6 +625,7 @@ The schema is defined in [src/prisma/schema.prisma](src/prisma/schema.prisma).
 
 - Problem: AccessToken will never expire. However, it should be expired if this project is used in a real-world for security reasons.
   - Potential Solution: Use third-pary auth service or set expiration time(+ refreshToken).
+- `.env` file should not be pushed to GitHub repo if this is a real-world project.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
