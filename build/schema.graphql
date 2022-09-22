@@ -1,0 +1,69 @@
+type Query {
+  todo(id: ID!): Todo
+  todos(priority: Int, status: TodoStatus, category: Category): [Todo!]
+}
+
+type Mutation {
+  createTodo(input: CreateTodoInput!): Todo
+  updateTodo(id: Int!, input: UpdateTodoInput!): Todo
+  deleteTodo(id: Int!): Todo
+  # createUser(id: String, input: CreateUserInput): User
+  updateUser(id: String, input: UpdateUserInput): User
+}
+
+type User {
+  id: ID!
+  name: String!
+  password: String!
+}
+
+type Todo {
+  id: Int!
+  title: String!
+  description: String
+  category: Category!
+  status: TodoStatus!
+  priority: Int!
+  userId: ID!
+}
+
+enum Category {
+  hobby
+  work
+  study
+  other
+}
+
+enum TodoStatus {
+  done
+  pending
+}
+
+input CreateTodoInput {
+  # id: ID!
+  title: String!
+  description: String
+  category: Category
+  priority: Int
+  # status: TodoStatus
+  # user: ID!
+}
+
+input UpdateTodoInput {
+  title: String
+  description: String
+  category: Category
+  status: TodoStatus
+  priority: Int
+}
+
+# input CreateUserInput {
+#   # id: ID!
+#   name: String!
+#   password: String!
+# }
+
+input UpdateUserInput {
+  name: String
+  password: String
+}
