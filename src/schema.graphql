@@ -7,8 +7,6 @@ type Mutation {
   createTodo(input: CreateTodoInput!): Todo
   updateTodo(id: Int!, input: UpdateTodoInput!): Todo
   deleteTodo(id: Int!): Todo
-  # createUser(id: String, input: CreateUserInput): User
-  updateUser(id: String, input: UpdateUserInput): User
 }
 
 type User {
@@ -55,15 +53,4 @@ input UpdateTodoInput {
   category: Category
   status: TodoStatus
   priority: Int
-}
-
-# input CreateUserInput {
-#   # id: ID!
-#   name: String!
-#   password: String!
-# }
-
-input UpdateUserInput {
-  name: String
-  password: String
 }
