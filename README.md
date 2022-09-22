@@ -45,7 +45,7 @@
       <a href="#usage">Usage</a>
       <ul>
         <li>
-          <a href="#authentication">Authentication</a>
+          <a href="#authentication---rest-api">Authentication - Rest API</a>
           <ul>
             <li><a href="#login">Login</a></li>
             <li><a href="#signup">Signup</a></li>
@@ -87,7 +87,7 @@
 <img src="./assets/images/graphql_ss.png" />
 
 This is a simple GraphQL server that has basic CRUD features with Auth. This API demonstrates how Query and Mutation work. Moreover, Auth works with some operations.
-The API is connected to DB running in the local environment. Therefore, you will be able to understand how GraphQL server is working in the real-world. This GraphQL server can be connected to any Postgres DB by changing the DB URL in the .env file.
+The API is connected to DB running in the local environment. Therefore, you will be able to understand how the GraphQL server is working in the real world. This GraphQL server can be connected to any Postgres DB by changing the DB URL in the .env file.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -108,16 +108,6 @@ The API is connected to DB running in the local environment. Therefore, you will
 and so on...
 
 You can see the list of packages in [package.json]("./package.json") file.
-
-
-<!-- * [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url] -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -173,6 +163,7 @@ To get a local copy up and running follow these simple steps.
    And the test data has already been inserted.
 
    <img src="./assets/images/todo_entity_ss.png" />
+
 7. Run GraphQL-Express server in production-mode
    ```sh
    npm run start
@@ -181,11 +172,15 @@ To get a local copy up and running follow these simple steps.
       ```sh
       npm run dev
       ```
-   Open `http://localhost:4000/graphql` and Click `Query your server` button.
+   Open `http://localhost:4000/graphql` and Click the `Query your server` button.
+
+
     <img src="./assets/images/graphql_home_ss.png" />
+
 8. Done 🚀🚀🚀
 
     You can start calling GraphQL query and mutation on the console
+
     <img src="./assets/images/graphql_console_ss.png" />
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -195,12 +190,10 @@ To get a local copy up and running follow these simple steps.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+In this section, you will be able to know how to use this API server.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-### Authentication
-Some mutation operations are limited for an authorized user. Therefore, you will need to issue an accessToken by sending a HTTP request to either /signup/ or /login/ endpoint.
+### Authentication - Rest API
+Some mutation operations are limited to an authorized user. Therefore, you will need to issue an accessToken by sending an HTTP request to either /signup/ or /login/ endpoint.
 
 These auth-related endpoints are **Rest API**.
 
@@ -228,7 +221,7 @@ The body of the request should be structured as follows:
 ```
 
 
-The test user data is registered to the DB. You can use users&passwords below:
+The test user data has already been registered to the DB. You can use users&passwords below:
 
 ```
 [
@@ -247,7 +240,7 @@ The test user data is registered to the DB. You can use users&passwords below:
 ]
 ```
 
-*Password in DB is hashed for security reasons.*
+*Password in DB is hashed for security reasons. Therefore, you can not see raw data by looking at DB.*
 
 ### Signup
 - POST - `http://localhost:4000/api/v1/signup`
@@ -275,7 +268,7 @@ The body of the request should be structured as follows:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### GraphQL
-You can fetch data from DB by GraphQL
+You can fetch data from DB by GraphQL.
 
 #### Query
 #### Todo
@@ -623,9 +616,9 @@ The schema is defined in [src/prisma/schema.prisma](src/prisma/schema.prisma).
 
 ## A room for improvements
 
-- Problem: AccessToken will never expire. However, it should be expired if this project is used in a real-world for security reasons.
-  - Potential Solution: Use third-pary auth service or set expiration time(+ refreshToken).
-- `.env` file should not be pushed to GitHub repo if this is a real-world project.
+- Problem: AccessToken issued by this server will never expire. However, it should have an expiration time if this project is used in the real world for security reasons.
+  - Potential Solution: Use a third-party auth service or set expiration time(+ refreshToken).
+- The `.env` file should not be pushed to the GitHub repo if this is a real-world project.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -655,19 +648,3 @@ Portfolio: [https://tomohirodev.com/](https://tomohirodev.com/)
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/tomohiro/
 [product-screenshot]: assets/images/graphql_ss.png
-<!-- [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com -->
