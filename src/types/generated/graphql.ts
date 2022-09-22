@@ -66,7 +66,7 @@ export type Query = {
 
 
 export type QueryTodoArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
