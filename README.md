@@ -45,7 +45,7 @@
       <a href="#usage">Usage</a>
       <ul>
         <li>
-          <a href="#authentication---rest-api">Authentication</a>
+          <a href="#authentication---rest-api">Authentication - Rest API</a>
           <ul>
             <li><a href="#login">Login</a></li>
             <li><a href="#signup">Signup</a></li>
