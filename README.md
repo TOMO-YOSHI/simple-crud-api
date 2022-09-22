@@ -7,8 +7,6 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 
-
-<!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
@@ -23,11 +21,6 @@
     <a href="#about-the-project"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <!-- <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a> -->
   </p>
 </div>
 
@@ -48,12 +41,41 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
+    <li>
+      <a href="#usage">Usage</a>
+      <ul>
+        <li>
+          <a href="#authentication">Authentication</a>
+          <ul>
+            <li><a href="#login">Login</a></li>
+            <li><a href="#signup">Signup</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#graphql">GraphQL</a>
+          <ul>
+            <li>
+              <a href="#query">Query</a>
+              <ul>
+                <li><a href="#todo">Todo</a></li>
+                <li><a href="#todos">Todos</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#mutation">Mutation</a>
+              <ul>
+                <li><a href="#createtodo">createTodo</a></li>
+                <li><a href="#updatetodo">updateTodo</a></li>
+                <li><a href="#deletetodo">deleteTodo</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#roadmap">Data modeling</a></li>
+    <li><a href="#contributing">A room for improvement</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 <!-- </details> -->
 
@@ -66,15 +88,6 @@
 
 This is a simple GraphQL server that has basic CRUD features with Auth. This API demonstrates how Query and Mutation work. Moreover, Auth works with some operations.
 The API is connected to DB running in the local environment. Therefore, you will be able to understand how GraphQL server is working in the real-world. This GraphQL server can be connected to any Postgres DB by changing the DB URL in the .env file.
-
-<!-- Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description` -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -186,71 +199,443 @@ Use this space to show useful examples of how a project can be used. Additional 
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
+### Authentication
+Some mutation operations are limited for an authorized user. Therefore, you will need to issue an accessToken by sending a HTTP request to either /signup/ or /login/ endpoint.
+
+These auth-related endpoints are **Rest API**.
+
+#### Login
+- POST - `http://localhost:4000/api/v1/login`
+- Example Request
+
+The body of the request should be structured as follows:
+
+***JSON***
+```
+{
+    "name": "user_1",
+    "password": "password1"
+}
+```
+
+- Example Response
+
+***200***
+```
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjZGM1MGM1NS1mM2ExLTQwODMtOWU1ZS1iNGZmMDhlOGQyODgiLCJpYXQiOjE2NjM4MzM4MzV9.eD8fcZ82y2VJOeCfOCvCNvxOLivpCh9UdvgsdwIe1n0"
+}
+```
+
+
+The test user data is registered to the DB. You can use users&passwords below:
+
+```
+[
+  {
+    name: "user_1",
+    password: "password1"
+  },
+  {
+    name: "user_2",
+    password: "password2"
+  },
+  {
+    name: "user_3",
+    password: "password3"
+  },
+]
+```
+
+*Password in DB is hashed for security reasons.*
+
+### Signup
+- POST - `http://localhost:4000/api/v1/signup`
+- Example Request
+
+The body of the request should be structured as follows:
+
+***JSON***
+```
+{
+    "name": "user_4",
+    "password": "password4"
+}
+```
+
+- Example Response
+
+***200***
+```
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjZGM1MGM1NS1mM2ExLTQwODMtOWU1ZS1iNGZmMDhlOGQyODgiLCJpYXQiOjE2NjM4MzM4MzV9.eD8fcZ82y2VJOeCfOCvCNvxOLivpCh9UdvgsdwIe1n0"
+}
+```
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### GraphQL
+You can fetch data from DB by GraphQL
 
+#### Query
+#### Todo
+- Authorization - NO
+- Example Query
 
-<!-- ROADMAP -->
-## Roadmap
+***Operation***
+```
+uery Todo($todoId: Int!) {
+  todo(id: $todoId) {
+    id
+    title
+    description
+    category
+    status
+    priority
+    userId
+  }
+}
+```
+***Variables***
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+`todoId` variable is required.
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+```
+{
+  "todoId": 1
+}
+```
+- Example Response
+
+***200***
+```
+{
+  "data": {
+    "todo": {
+      "id": 1,
+      "title": "user_1_todo_2_title",
+      "description": "user_1_todo_2_description",
+      "category": "work",
+      "status": "pending",
+      "priority": 2,
+      "userId": "cdc50c55-f3a1-4083-9e5e-b4ff08e8d288"
+    }
+  }
+}
+```
+
+#### Todos
+- Authorization - NO
+- Example Query
+
+***Operation***
+```
+query Todos($priority: Int, $status: TodoStatus, $category: Category) {
+  todos(priority: $priority, status: $status, category: $category) {
+    id
+    title
+    category
+  }
+}
+```
+***Variables***
+
+These variables are optional. Please use these variables to filter results.
+
+```
+{
+  "priority": 1, 
+  "status": "pending",
+  "category": "other"
+}
+```
+- Acceptable values for "status" and "category" are as follows:
+```
+enum Category {
+  hobby
+  work
+  study
+  other
+}
+
+enum TodoStatus {
+  done
+  pending
+}
+```
+
+- Example Response
+
+***200***
+```
+{
+  "data": {
+    "todos": [
+      {
+        "id": 2,
+        "title": "user_1_todo_3_title",
+        "category": "other"
+      },
+      {
+        "id": 5,
+        "title": "user_2_todo_4_title",
+        "category": "other"
+      },
+      {
+        "id": 9,
+        "title": "user_3_todo_2_title",
+        "category": "other"
+      }
+    ]
+  }
+}
+```
+
+#### Mutation
+
+#### createTodo
+- Authorization - **YES**
+  - AccessToken should be set to Header.
+- Example Query
+
+***Operation***
+```
+mutation Mutation($input: CreateTodoInput!) {
+  createTodo(input: $input) {
+    id
+    title
+    description
+    category
+    status
+    priority
+    userId
+  }
+}
+```
+***Variables***
+
+`title` is required. Others are optional.
+
+```
+{
+  "input": {
+    "title": "Watch movie",
+    "description": "Just for a fan",
+    "category": "hobby",
+    "priority": 3
+  }
+}
+```
+- Acceptable values for "status" and "category" are as follows:
+```
+enum Category {
+  hobby
+  work
+  study
+  other
+}
+
+enum TodoStatus {
+  done
+  pending
+}
+```
+
+***Headers***
+
+`Authorization` is required. Please set AccessToke issued by [login](#login) or [signup](#signup) endpoint.
+
+```
+Key:   Authorization
+Value: Bearer <YourToken>
+```
+
+- Example Response
+
+***200***
+```
+{
+  "data": {
+    "createTodo": {
+      "id": 14,
+      "title": "Watch movie",
+      "description": "Just for a fan",
+      "category": "hobby",
+      "status": "pending",
+      "priority": 3,
+      "userId": "36254c13-72be-438a-89b9-ce666edc20f9"
+    }
+  }
+}
+```
+
+#### updateTodo
+- Authorization - **YES**
+  - AccessToken should be set to Header.
+  - Only an owner of the todo can update it.
+- Example Query
+
+***Operation***
+```
+mutation UpdateTodo($updateTodoId: Int!, $input: UpdateTodoInput!) {
+  updateTodo(id: $updateTodoId, input: $input) {
+    id
+    title
+    description
+    category
+    status
+    priority
+    userId
+  }
+}
+```
+***Variables***
+
+`updateTodoId` is required. Others are optional.
+
+```
+{
+  "updateTodoId": 14,
+  "input": {
+    "title": "Walking",
+    "description": "For my health",
+    "category": "other",
+    "status": "pending",
+    "priority": 3
+  }
+}
+```
+- Acceptable values for "status" and "category" are as follows:
+```
+enum Category {
+  hobby
+  work
+  study
+  other
+}
+
+enum TodoStatus {
+  done
+  pending
+}
+```
+
+***Headers***
+
+`Authorization` is required. Please set AccessToke issued by [login](#login) or [signup](#signup) endpoint.
+
+```
+Key:   Authorization
+Value: Bearer <YourToken>
+```
+
+- Example Response
+
+***200***
+```
+{
+  "data": {
+    "updateTodo": {
+      "id": 14,
+      "title": "Walking",
+      "description": "For my health",
+      "category": "other",
+      "status": "pending",
+      "priority": 3,
+      "userId": "36254c13-72be-438a-89b9-ce666edc20f9"
+    }
+  }
+}
+```
+
+#### deleteTodo
+- Authorization - **YES**
+  - AccessToken should be set to Header.
+  - Only an owner of the todo can delete it.
+- Example Query
+
+***Operation***
+```
+mutation DeleteTodo($deleteTodoId: Int!) {
+  deleteTodo(id: $deleteTodoId) {
+    id
+    title
+    description
+    category
+    status
+    priority
+    userId
+  }
+}
+```
+***Variables***
+
+`updateTodoId` is required.
+
+```
+{
+  "deleteTodoId": 14
+}
+```
+
+***Headers***
+
+`Authorization` is required. Please set AccessToke issued by [login](#login) or [signup](#signup) endpoint.
+
+```
+Key:   Authorization
+Value: Bearer <YourToken>
+```
+
+- Example Response
+
+***200***
+```
+{
+  "data": {
+    "deleteTodo": {
+      "id": 14,
+      "title": "Walking",
+      "description": "For my health",
+      "category": "other",
+      "status": "pending",
+      "priority": 3,
+      "userId": "36254c13-72be-438a-89b9-ce666edc20f9"
+    }
+  }
+}
+```
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Data modeling
 
+**ER Diagram**
+<img src="./assets/images/erd.png" />
 
-<!-- CONTRIBUTING -->
-## Contributing
+There are only two tables in the database since the scale of this project is small enough. The "userId" field in the Todo entity is a foreign key that is the primary key of the User.
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+The schema is defined in [src/prisma/schema.prisma](src/prisma/schema.prisma).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## A room for improvements
 
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+- Problem: AccessToken will never expire. However, it should be expired if this project is used in a real-world for security reasons.
+  - Potential Solution: Use third-pary auth service or set expiration time(+ refreshToken).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Tomohiro Yoshida - tomohiroyoshida10@gmail.com
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* []()
-* []()
-* []()
+Portfolio: [https://tomohirodev.com/](https://tomohirodev.com/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -268,7 +653,7 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/tomohiro/
 [product-screenshot]: assets/images/graphql_ss.png
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+<!-- [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
@@ -283,4 +668,4 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 [Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com
+[JQuery-url]: https://jquery.com -->
