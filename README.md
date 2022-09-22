@@ -9,7 +9,7 @@
 
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://github.com/TOMO-YOSHI/simple-crud-api">
     <img src="./assets/images/profile-min.png" alt="Logo" width="80" height="80">
   </a>
 
