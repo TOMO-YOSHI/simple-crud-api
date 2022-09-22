@@ -160,11 +160,11 @@ To get a local copy up and running follow these simple steps.
    And the test data has already been inserted.
 
    <img src="./assets/images/todo_entity_ss.png" />
-7. Run GraphQL-Express server by production-mode
+7. Run GraphQL-Express server in production-mode
    ```sh
    npm run start
    ```
-    - If you encounter any build errors, I recommend you to run GraphQL-Express server by **dev-mode**
+    - If you encounter any build errors, I recommend you to run GraphQL-Express server in **dev-mode**
       ```sh
       npm run dev
       ```

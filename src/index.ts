@@ -7,11 +7,9 @@ import { ApolloServer, gql } from "apollo-server-express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import { resolvers } from "./resolvers";
-import jwt from "jsonwebtoken";
 import { expressjwt } from 'express-jwt';
-import { prisma } from './prisma/client';
-const bcrypt = require('bcrypt');
-const jwtSecret = process.env.JWT_SECRET || "17NfUBizz9tBwt1cCWzNqthWQanwpETJ";
+import router from './routes'
+import { jwtSecret } from './config';
 
 
 const startServer = async () => {
@@ -27,15 +25,6 @@ const startServer = async () => {
 
   const typeDefs = gql(fs.readFileSync(`${__dirname}/schema.graphql`, { encoding: 'utf8' }));
   const context = async({req}: any) => {
-    // if (req.auth) {
-    //   const user = await prisma.user.findUnique({
-    //     where: {
-    //       id: req.auth.sub
-    //     }
-    //   });
-    //   return { user }
-    // }
-    // return {};
     return {auth: req.auth}
   }
   const apolloServer = new ApolloServer({
@@ -46,52 +35,14 @@ const startServer = async () => {
 
   await apolloServer.start()
 
+  // Route for GraphQL
   apolloServer.applyMiddleware({
     app,
     path: '/graphql'
   });
 
-  app.post('/login', async (req, res) => {
-    try {
-      const { name, password } = req.body;
-
-      // const saltRounds = process.env.SOLTROUNDS;
-      // const hash = bcrypt.hashSync(password, saltRounds);
-
-      const user = await prisma.user.findUnique({
-        where: {
-          name: name
-        }
-      });
-
-      // If there is not a user
-      if (!user) {
-        throw new Error('Your name or password is wrong.')
-      };
-
-      const passwordCheck = bcrypt.compareSync(password, user.password);
-
-      // If password is wrong
-      if(!passwordCheck) {
-        throw new Error('Your name or password is wrong.')
-      }
-
-      const token = jwt.sign(
-        { sub: user.id },
-        jwtSecret        
-      );
-
-      res.status(200).json({ token });
-    } catch(error) {
-      let message;
-      if (error instanceof Error) {
-        message = error.message;
-      } else {
-        message = String(error);
-      }
-      res.status(401).json({ message: message });
-    }
-  });
+  // Route for RestAPI
+  app.use('/api', router);
 
   httpServer.listen({ port: process.env.PORT || 4000}, () =>
     console.log(`Server listening on localhost:${process.env.PORT || 4000}${apolloServer.graphqlPath}`)
