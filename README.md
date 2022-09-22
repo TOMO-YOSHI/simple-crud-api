@@ -73,8 +73,8 @@
         </li>
       </ul>
     </li>
-    <li><a href="#roadmap">Data modeling</a></li>
-    <li><a href="#contributing">A room for improvement</a></li>
+    <li><a href="#data-modeling">Data modeling</a></li>
+    <li><a href="#a-room-for-improvements">A room for improvement</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 <!-- </details> -->
@@ -612,6 +612,7 @@ Value: Bearer <YourToken>
 ## Data modeling
 
 **ER Diagram**
+
 <img src="./assets/images/erd.png" />
 
 There are only two tables in the database since the scale of this project is small enough. The "userId" field in the Todo entity is a foreign key that is the primary key of the User.
