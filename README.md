@@ -436,7 +436,7 @@ enum TodoStatus {
 
 ***Headers***
 
-`Authorization` is required. Please set AccessToke issued by [login](#login) or [signup](#signup) endpoint.
+`Authorization` is required. Please set AccessToken issued by [login](#login) or [signup](#signup) endpoint.
 
 ```
 Key:   Authorization
@@ -515,7 +515,7 @@ enum TodoStatus {
 
 ***Headers***
 
-`Authorization` is required. Please set AccessToke issued by [login](#login) or [signup](#signup) endpoint.
+`Authorization` is required. Please set AccessToken issued by [login](#login) or [signup](#signup) endpoint.
 
 ```
 Key:   Authorization
@@ -573,7 +573,7 @@ mutation DeleteTodo($deleteTodoId: Int!) {
 
 ***Headers***
 
-`Authorization` is required. Please set AccessToke issued by [login](#login) or [signup](#signup) endpoint.
+`Authorization` is required. Please set AccessToken issued by [login](#login) or [signup](#signup) endpoint.
 
 ```
 Key:   Authorization
